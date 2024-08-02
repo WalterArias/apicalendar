@@ -1,5 +1,7 @@
 import Usuario from "../models/Usuario.js"
-import express from "express"
+//import express from "express"
+import { validationResult } from 'express-validator'
+
 
 export const login = (req, res) => {
     return res.send({
@@ -9,7 +11,14 @@ export const login = (req, res) => {
 
 }
 export const crearNuevo = async (req, res) => {
-    let datos = req.body    
+    let datos = req.body
+    const errores = validationResult(req)
+    if (!errores.isEmpty()) {
+        return res.status(400).send({
+            estado: false,
+            errores: errores.mapped()
+        })
+    }
     const usuario = new Usuario(datos)
     await usuario.save()
     res.status(201).send({
@@ -18,6 +27,7 @@ export const crearNuevo = async (req, res) => {
         usuario
     })
 }
+
 export const renovarToken = (req, res) => {
     return res.send({
         status: true,

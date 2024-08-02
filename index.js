@@ -6,7 +6,7 @@ import conectarDb from './src/models/config.js'
 import router from './src/routes/usuario.js'
 
 const app = express()
-conectarDb()
+conectarDb()  //llama el metodo constructor de la clase conexion
 app.use(cors())
 
 //ruta por defecto
